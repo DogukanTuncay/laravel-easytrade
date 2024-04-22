@@ -20,8 +20,14 @@ class StoreUserRequest extends FormRequest
             'password' => 'required|string|min:6',
             'user_type' => 'string',
             'token' => 'numeric',
+            'company_name' => 'nullable|string|max:255', // Firma adı isteğe bağlı ve maksimum 255 karakter olabilir
+            'firma_calisan_sayisi' => 'nullable|integer|min:1', // Firma çalışan sayısı isteğe bağlı, tam sayı ve en az 1 olmalı
+            'mail_api_key' => 'nullable|string',
+            'avatar_id' => 'nullable|numeric',
             'email' => 'required|string|email|unique:users,email',
             'phone' => 'required|string|unique:users,phone',
+            'mail_activate' => 'boolean',
+            'wp_activate' => 'boolean',
         ];
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -27,19 +27,4 @@ class Handler extends ExceptionHandler
             //
         });
     }
-    protected function unauthenticated($request, AuthenticationException $exception)
-{
-    if ($request->expectsJson()) {
-        // JSON bekleyen istekler için özelleştirilmiş hata mesajı
-        return response()->json([
-            'succeeded' => false, // Giriş başarısız
-            'message' => 'The provided credentials are incorrect.',
-            'errors' => null,
-            'data' => null
-        ], 401); // 401 Unauthorized, kimlik doğrulama hatası için kullanılır;
-    }
-
-    // Web istekleri için kullanıcıyı login sayfasına yönlendir
-    return redirect()->guest(route('login'));
-}
 }

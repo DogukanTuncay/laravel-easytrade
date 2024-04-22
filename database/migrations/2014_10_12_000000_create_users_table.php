@@ -15,13 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->unsignedTinyInteger('avatar_url')->nullable()->default("0");
+            $table->unsignedTinyInteger('avatar_id')->nullable()->default("0");
             $table->string('password');
             $table->string('user_type')->default("0");
+            $table->string('company_name')->nullable(); // firma adı alanı, boş geçilebilir olarak ayarlandı
+            $table->integer('company_worker_count')->nullable(); // Firma Çalışan Sayısı, boş  geçilebilir olarak ayarlı.
             $table->decimal('token', 10, 2)->default(0.00);
+            $table->string('mail_api_key')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('email')->unique();
             $table->string('phone')->unique();
+            $table->boolean('mail_activate')->default(false);
+            $table->boolean('wp_activate')->default(false);
+            $table->boolean('isAdmin')->default('0');
             $table->rememberToken();
             $table->timestamps();
         });
