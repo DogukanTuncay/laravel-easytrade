@@ -11,17 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_metas', function (Blueprint $table) {
+        Schema::create('active_company_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('company_name');
-            $table->string('company_city');
-            $table->string('company_district');
-            $table->string('company_neighbourhood');
-            $table->string('company_budget');
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->boolean('status')->default(false);
+            $table->decimal('current_latitude', 10, 7)->nullable();
+            $table->decimal('current_longitude', 10, 7)->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_metas');
+        Schema::dropIfExists('active_company_users');
     }
 };

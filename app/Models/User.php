@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Group;
 
 class User extends Authenticatable
 {
@@ -19,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name','surname', 'password', 'user_type','company_worker_count','company_name', 'avatar_id', 'token', 'mail_api_key', 'email', 'phone', 'mail_activate', 'wp_activate'
+        'name','surname', 'password', 'user_type', 'avatar_id', 'token', 'email', 'phone'
     ];
 
     /**
@@ -29,9 +28,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'is_admin',
         'remember_token',
-        'pivot'
     ];
 
     /**
@@ -45,16 +42,9 @@ class User extends Authenticatable
     ];
 
 
-    public function contactForms()
-    {
-        return $this->hasMany(ContactForm::class);
-    }
-    public function metas()
-    {
-        return $this->hasMany(UserMeta::class);
-    }
     public function isAdmin()
     {
         return $this->isAdmin; // `is_admin` sütunu boolean bir değer taşıyor olmalı
     }
+
 }

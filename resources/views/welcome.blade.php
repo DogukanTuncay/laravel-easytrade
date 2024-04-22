@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SYBERDIN | Autonomous GPT</title>
+    <title>BELEK ÜNİVERSİTESİ | Golf App</title>
     <link rel="icon" type="image/x-icon" href="{{asset('resources/images/autonomous.png')}}">
     <link rel="stylesheet" href="{{asset('resources/css/style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -58,7 +58,7 @@
       <!-- START THE CONTENT FOR THE INTRO  -->
       <div class="col-md-6 intros text-start">
         <h1 class="display-2">
-          <span class="display-2--intro">EASYTRADE</span>
+          <span class="display-2--intro">Golf App</span>
           <span class="display-2--description lh-base">
             I am a helper for your marketing.
           </span>

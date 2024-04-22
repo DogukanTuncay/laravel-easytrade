@@ -7,36 +7,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Responses\ApiResponse;
+
 class LoginController extends Controller
 {
+    use ApiResponse;
     public function login(Request $request)
 {
     // 'email' alanını kullanarak kullanıcıyı bul
-    $user = User::where('email', $request->email)->first();
+    $login = $request->email; // 'email' adındaki girdiyi al
+
+    // E-posta adresi formatında mı kontrol et
+    $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+    // Kullanıcıyı belirtilen alana göre bul
+    $user = User::where($fieldType, $login)->first();
 
     // Kullanıcı bulunamazsa veya şifre eşleşmezse
     if(!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json([
-            'succeeded' => false, // Giriş başarısız
-            'message' => 'The provided credentials are incorrect.',
-            'errors' => null,
-            'data' => null
-        ], 400); // 401 Unauthorized, kimlik doğrulama hatası için kullanılır
+        return $this->errorResponse('The provided credentials are incorrect.');
     }
 
     // Kullanıcı için bir token oluştur
     $userToken = $user->createToken($user->email)->plainTextToken;
+    $data['token'] = $userToken;
+    return $this->successResponse($data, 'Login successful.');
 
-    // Başarılı giriş yanıtını döndür
-    return response()->json([
-        'succeeded' => true,
-        'message' => 'Login successful.',
-        'errors' => null,
-        'data' => ['token' => $userToken,
-        'expiration' => '',
-        'refreshToken' => '',
-        ]
-    ], 200);
 }
     public function register(StoreUserRequest $request)
     {
@@ -46,27 +42,15 @@ class LoginController extends Controller
 
     if ($userExists) {
         // Eğer kullanıcı varsa, hata mesajı ile yanıt ver
-        return response()->json([
-            'succeeded' => 'true',
-            'message' => 'Bu kullanıcı adı zaten kayıtlı. Lütfen başka bir istek yollayın.',
-            'errors' => null,
-            'data' => null
-        ], 400); // 400 veya başka uygun bir HTTP hata kodu kullanabilirsiniz
+        return $this->errorResponse('Bu kullanıcı zaten kayıtlı. Lütfen başka bir şey yollayın.');
     }
 
     $user = User::create($request->validated());
-    $userToken = $user->createToken($user->id)->plainTextToken;
-    $data = [
-        'succeeded' => true,
-        'message' => ' Kayıt başarıyla Oluşturuldu.',
-        'errors' => null,
-        'data' => [
-            'token' => $userToken,
-            'expiration' => '',
-            'refreshToken' => '',
 
-        ],
-    ];
+    $userToken = $user->createToken($user->id)->plainTextToken;
+    $data['token'] = $userToken;
+    return $this->successResponse($data, 'Kayıt başarıyla Oluşturuldu.');
+
     return response()->json($data,200);
     }
 }

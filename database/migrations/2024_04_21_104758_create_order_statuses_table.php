@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contact_forms', function (Blueprint $table) {
+        Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
-            $table->string('phone');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('subject');
-            $table->text('message');
+            $table->string('name'); // Durum adı, örneğin: 'Sepette', 'Gönderimde', vs.
             $table->timestamps();
         });
-
     }
 
     /**
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contact_forms');
+        Schema::dropIfExists('order_statuses');
     }
 };
